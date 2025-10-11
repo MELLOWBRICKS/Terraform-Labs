@@ -1,108 +1,238 @@
-# Terraform Homework Assignment
+# 🏗️ Terraform AWS Infrastructure Labs
 
-This Terraform configuration creates the infrastructure as specified in the homework requirements:
+[![Terraform](https://img.shields.io/badge/Terraform-v1.0+-623CE4?style=flat&logo=terraform)](https://terraform.io)
+[![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazon-aws)](https://aws.amazon.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Architecture
+A comprehensive collection of Terraform labs demonstrating AWS infrastructure provisioning from basic resources to advanced modular architectures.
 
-- **VPC** with 4 subnets:
-  - 2 Public subnets (with Internet Gateway access)
-  - 2 Private subnets (with NAT Gateway access)
-- **EC2 instances** deployed in private subnets
-- **S3 bucket** for storage
-- **IAM role** allowing EC2 instances to access S3 bucket privately
+## 📋 Overview
 
-## Prerequisites
+This repository contains three progressive Terraform labs that teach infrastructure as code concepts:
 
-1. AWS CLI configured with appropriate credentials
-2. Terraform installed (version >= 1.0)
-3. An existing EC2 Key Pair in your AWS account
+- **Lab 1**: Basic EC2 instance provisioning
+- **Lab 2**: S3 bucket creation and management  
+- **Lab 3**: Advanced modular infrastructure with VPC, EC2, and S3 integration
 
-## Deployment Instructions
+## 🗂️ Project Structure
 
-1. **Clone and navigate to the project directory**
+```
+terra/
+├── lab1/                    # Basic EC2 instances
+│   └── EC2-Instance.tf
+├── lab2/                    # S3 bucket creation
+│   └── S3-Bucket.tf
+├── lab3/                    # Advanced modular infrastructure
+│   ├── main.tf              # Main configuration
+│   ├── variables.tf         # Input variables
+│   ├── outputs.tf           # Output values
+│   ├── providers.tf         # AWS provider setup
+│   ├── backend.tf           # Remote state configuration
+│   ├── TEACHME.md          # Detailed lab guide
+│   └── modules/            # Reusable modules
+│       ├── vpc/            # Virtual Private Cloud
+│       ├── ec2/            # EC2 instances with IAM
+│       └── s3/             # S3 bucket with policies
+└── README.md               # This file
+```
 
-2. **Copy the example variables file:**
+## 🚀 Quick Start
 
-   ```bash
-   cp terraform.tfvars.example terraform.tfvars
-   ```
+### Prerequisites
 
-3. **Edit terraform.tfvars:**
+- [Terraform](https://terraform.io/downloads.html) >= 1.0
+- [AWS CLI](https://aws.amazon.com/cli/) configured
+- AWS credentials with appropriate permissions
 
-   - Update `key_name` to your actual EC2 key pair name
-   - Update `s3_bucket_name` to a globally unique name
-   - Modify other variables as needed
-
-4. **Initialize Terraform:**
-
-   ```bash
-   terraform init
-   ```
-
-5. **Plan the deployment:**
-
-   ```bash
-   terraform plan
-   ```
-
-6. **Apply the configuration:**
-
-   ```bash
-   terraform apply
-   ```
-
-7. **Verify the deployment:**
-   ```bash
-   terraform output
-   ```
-
-## Testing S3 Access from EC2
-
-Once deployed, you can test the S3 access from EC2 instances:
-
-1. Connect to an EC2 instance (you'll need a bastion host or VPN for private instances)
-2. Test S3 access:
-   ```bash
-   aws s3 ls s3://your-bucket-name
-   aws s3 cp /etc/hostname s3://your-bucket-name/test-file.txt
-   ```
-
-## Cleanup
-
-To destroy all resources:
+### Lab 1: Basic EC2 Instances
 
 ```bash
+cd lab1
+terraform init
+terraform plan
+terraform apply
+```
+
+**Creates:**
+- 2x t2.micro EC2 instances
+- Basic security group configuration
+- Public IP outputs
+
+### Lab 2: S3 Bucket
+
+```bash
+cd lab2
+terraform init
+terraform plan
+terraform apply
+```
+
+**Creates:**
+- S3 bucket with tags
+- Bucket ARN and name outputs
+
+### Lab 3: Modular Infrastructure
+
+```bash
+cd lab3
+terraform init
+terraform plan
+terraform apply
+```
+
+**Creates:**
+- Modular VPC setup
+- EC2 instances with IAM roles
+- S3 bucket with VPC endpoint
+- Security policies and networking
+
+## 🏗️ Architecture
+
+### Lab 3 Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        AWS VPC                              │
+│  ┌─────────────────┐    ┌─────────────────┐                │
+│  │   EC2 Module    │    │   S3 Module     │                │
+│  │                 │    │                 │                │
+│  │ ┌─────────────┐ │    │ ┌─────────────┐ │                │
+│  │ │ Instance 1  │ │    │ │   Bucket    │ │                │
+│  │ │ + IAM Role  │ │◄───┤ │ + Policies  │ │                │
+│  │ └─────────────┘ │    │ └─────────────┘ │                │
+│  │ ┌─────────────┐ │    │                 │                │
+│  │ │ Instance 2  │ │    │                 │                │
+│  │ │ + IAM Role  │ │    │                 │                │
+│  │ └─────────────┘ │    │                 │                │
+│  └─────────────────┘    └─────────────────┘                │
+│           │                       │                        │
+│           └───────────────────────┼────────────────────────┤
+│                                   │                        │
+│                        ┌─────────────────┐                 │
+│                        │  VPC Endpoint   │                 │
+│                        │      (S3)       │                 │
+│                        └─────────────────┘                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+```bash
+export AWS_REGION="ap-south-1"
+export AWS_PROFILE="your-profile"
+```
+
+### Key Variables (Lab 3)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `aws_region` | AWS region | `ap-south-1` |
+| `s3_bucket_name` | S3 bucket name | `terra-lab3-bucket` |
+| `instance_type` | EC2 instance type | `t2.micro` |
+| `key_name` | EC2 key pair name | `mells-server` |
+
+## 📊 Outputs
+
+### Lab 1 Outputs
+- `instance_id`: EC2 instance IDs
+- `elastic-ip`: Public IP addresses
+
+### Lab 2 Outputs  
+- `s3_bucket_name`: Bucket name
+- `s3_bucket_arn`: Bucket ARN
+
+### Lab 3 Outputs
+- Modular outputs from each component
+- VPC endpoint details
+- IAM role ARNs
+
+## 🛡️ Security Features
+
+- **IAM Roles**: Least privilege access for EC2 instances
+- **VPC Endpoints**: Private S3 access without internet gateway
+- **Security Groups**: Controlled network access
+- **Resource Tagging**: Consistent resource identification
+
+## 🧪 Testing
+
+```bash
+# Validate configuration
+terraform validate
+
+# Check formatting
+terraform fmt -check
+
+# Plan without applying
+terraform plan
+
+# Destroy resources (when done)
 terraform destroy
 ```
 
-## Module Structure
+## 📚 Learning Path
 
+1. **Start with Lab 1**: Learn basic Terraform syntax and EC2 provisioning
+2. **Progress to Lab 2**: Understand S3 resource management
+3. **Master Lab 3**: Explore modular architecture and advanced networking
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 Best Practices
+
+- Always run `terraform plan` before `apply`
+- Use consistent naming conventions
+- Tag all resources appropriately
+- Store state files securely (remote backend)
+- Use modules for reusable components
+- Implement proper IAM policies
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+**Issue**: `Error: InvalidKeyPair.NotFound`
+```bash
+# Solution: Update key_name in variables or create the key pair
+aws ec2 create-key-pair --key-name mells-server
 ```
-├── main.tf                 # Main configuration
-├── variables.tf            # Input variables
-├── outputs.tf             # Output values
-├── terraform.tfvars.example # Example variables
-├── modules/
-│   ├── vpc/               # VPC module
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   ├── ec2/               # EC2 module
-│   │   ├── EC2.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   └── s3/                # S3 module
-│       ├── S3.tf
-│       ├── variables.tf
-│       └── outputs.tf
+
+**Issue**: `Error: BucketAlreadyExists`
+```bash
+# Solution: Change bucket name in variables.tf
+# S3 bucket names must be globally unique
 ```
 
-## Features Implemented
+**Issue**: `Error: UnauthorizedOperation`
+```bash
+# Solution: Check AWS credentials and permissions
+aws sts get-caller-identity
+```
 
-✅ VPC with 4 subnets (2 public, 2 private)  
-✅ EC2 instances in private subnets  
-✅ S3 bucket with security configurations  
-✅ IAM role for EC2 to S3 access  
-✅ Security groups with appropriate rules  
-✅ NAT Gateways for private subnet internet access  
-✅ Modular Terraform structure
+## 📖 Additional Resources
+
+- [Terraform Documentation](https://terraform.io/docs)
+- [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+- [Terraform Best Practices](https://www.terraform-best-practices.com/)
+- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Mells** - Infrastructure Engineer & Cloud Enthusiast
+
+---
+
+⭐ **Star this repository if it helped you learn Terraform!**
+
+*Built with ❤️ for the DevOps community*
