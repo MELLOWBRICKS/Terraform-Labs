@@ -1,0 +1,22 @@
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+.terraform.lock.hcl
+
+# Backup files
+*.backup
+*.bak
+
+# GCP credentials
+lab4/gcppracticals.json
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
