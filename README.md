@@ -8,33 +8,7 @@ A comprehensive collection of Terraform labs demonstrating AWS infrastructure pr
 
 ## 📋 Overview
 
-This repository contains three progressive Terraform labs that teach infrastructure as code concepts:
-
-- **Lab 1**: Basic EC2 instance provisioning
-- **Lab 2**: S3 bucket creation and management  
-- **Lab 3**: Advanced modular infrastructure with VPC, EC2, and S3 integration
-
-## 🗂️ Project Structure
-
-```
-terra/
-├── lab1/                    # Basic EC2 instances
-│   └── EC2-Instance.tf
-├── lab2/                    # S3 bucket creation
-│   └── S3-Bucket.tf
-├── lab3/                    # Advanced modular infrastructure
-│   ├── main.tf              # Main configuration
-│   ├── variables.tf         # Input variables
-│   ├── outputs.tf           # Output values
-│   ├── providers.tf         # AWS provider setup
-│   ├── backend.tf           # Remote state configuration
-│   ├── TEACHME.md          # Detailed lab guide
-│   └── modules/            # Reusable modules
-│       ├── vpc/            # Virtual Private Cloud
-│       ├── ec2/            # EC2 instances with IAM
-│       └── s3/             # S3 bucket with policies
-└── README.md               # This file
-```
+This repository contains three progressive Terraform labs that teach infrastructure as code concepts
 
 ## 🚀 Quick Start
 
