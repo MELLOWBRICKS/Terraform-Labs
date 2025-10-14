@@ -1,6 +1,7 @@
 # 🏗️ Terraform AWS Infrastructure Labs
 
 [![Terraform](https://img.shields.io/badge/Terraform-v1.0+-623CE4?style=flat&logo=terraform)](https://terraform.io)
+
 [![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazon-aws)](https://aws.amazon.com)
 
 A comprehensive collection of Terraform labs demonstrating AWS infrastructure provisioning from basic resources to advanced modular architectures.
